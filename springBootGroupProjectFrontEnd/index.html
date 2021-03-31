@@ -1,9 +1,179 @@
 <html>
-<head>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
 
-</head>
-<body>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-</body>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.jqueryui.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.jqueryui.min.css">
 
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.jqueryui.min.js"></script>
+        <script src="https://cdn.datatables.net/scroller/2.0.3/js/dataTables.scroller.min.js"></script>
+
+
+        <script>
+            $(document).ready(function() {
+                loadTable();
+
+            });
+
+
+            function loadTable() {
+                var settings = {
+                    "url": "http://localhost:8080/user/getAllUsers",
+                    "method": "GET",
+                    "timeout": 0,
+                };
+                $.ajax(settings).done(function(response) {
+//                    console.log(response);
+//                    alert(response[0].name);
+                    setResponce(response);
+                });
+            }
+
+            function updateUser(id) {
+                var settings = {
+                    "url": "http://localhost:8080/user/updateUser",
+                    "method": "PUT",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "id": id,
+                        "name": $("#n" + id).val(),
+                        "mobile": $("#m" + id).val(),
+                        "age": $("#a" + id).val(),
+                        "username": $("#u" + id).val(),
+                        "password": $("#p" + id).val()
+                    }),
+                };
+
+                $.ajax(settings).done(function(response) {
+//                    loadTable();
+//                    console.log(response);
+                });
+
+
+            }
+
+            function deleteUser(id) {
+                var settings = {
+                    "url": "http://localhost:8080/user/deleteUser/" + id,
+                    "method": "DELETE",
+                    "timeout": 0,
+                };
+
+                $.ajax(settings).done(function(response) {
+
+                    document.getElementById("tblrow"+id).remove();
+//                    loadTable();
+//                    console.log(response);
+                });
+
+            }
+
+
+            function setResponce(responce) {
+
+                var data = "";
+                for (i = 0; i < responce.length; i++) {
+                    data = data + "<tr id='tblrow"+responce[i].id+"'><td>" + responce[i].id + "</td><td>" +
+                            "<input class='w-75' type='text' id='n" + responce[i].id + "' value='" + responce[i].name + "'/></td><td>" +
+                            "<input type='text' id='m" + responce[i].id + "' value='" + responce[i].mobile + "'/></td><td>" +
+                            "<input class='w-50' type='text' id='a" + responce[i].id + "' value='" + responce[i].age + "'/></td><td>" +
+                            "<input type='text' id='u" + responce[i].id + "' value='" + responce[i].username + "'/></td><td>" +
+                            "<input type='password' id='p" + responce[i].id + "' value='" + responce[i].password + "'/></td><td>" +
+                            "<input type='button' value='Update' onclick='updateUser(" + responce[i].id + ")'/><input type='button' value='Delete' onclick='deleteUser(" + responce[i].id + ")'/>" + "</td></tr>";
+                }
+                $('#user_table').append(data);
+                $('#user_table').DataTable({
+                    deferRender: true,
+                    scrollY: 200,
+                    scrollCollapse: true,
+                    scroller: true
+
+
+                });
+
+
+            }
+
+            $(function() {
+                $("#tabs").tabs();
+            });
+
+
+
+
+        </script>
+
+
+    </head>
+    <body>
+
+
+
+        <div id="tabs" class="h-100">
+            <ul>
+                <li><a href="#tabs-1">User</a></li>
+                <li><a href="#tabs-2">Product</a></li>
+                <li><a href="#tabs-3">Product Cat</a></li>
+            </ul>
+            <div id="tabs-1" style="height: 100%;">
+
+                <div>
+                    <div class="row w-100 ">
+                        <div class="col  w-100">
+                            <table id="user_table" class="display nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Age</th>
+                                        <th>Username</th>
+                                        <th>Password</th>
+                                        <th></th>
+                                    </tr>
+
+
+
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+            <div id="tabs-2">
+                <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            </div>
+            <div id="tabs-3">
+                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+            </div>
+        </div>
+
+
+
+
+    </body>
 </html>
