@@ -13,42 +13,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lk.springBootGroupProject.entity.User;
-import com.lk.springBootGroupProject.service.UserService;
+import com.lk.springBootGroupProject.entity.Product;
+import com.lk.springBootGroupProject.service.ProductService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/product")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
-public class UserController {
+public class ProductController {
 
-	
 	@Autowired
-	UserService service;
+	ProductService service;
 	
-	@GetMapping("/getAllUsers")
-	public List<User> getAllUserList(){
-		return service.getAllUsers();
+	@PostMapping("/addProduct")
+	public Product addProduct(@RequestBody Product product) {
+		return	service.addProduct(product);
 	}
 	
-	@PostMapping("/addUser")
-	public User saveSingleUser(@RequestBody User user){
-		
-		return service.addUser(user);
+	@GetMapping("/getAllProduct")
+	public List<Product> getAllProducts(){
+		return service.getAllProducts();
 	}
 	
-	@PutMapping("/updateUser")
-	public User updateUser(@RequestBody User user) {
-		return service.updateUser(user);
+	@PutMapping("updateProduct")
+	public Product updateProduct(@RequestBody Product product) {
+		return service.updateProduct(product);
 	}
 	
-	@DeleteMapping("/deleteUser/{id}")
-	public User deleteUser(@PathVariable int id) {
-		return service.deleteUser(id);
+	@DeleteMapping("/deleteProduct/{id}")
+	public Product deleteProduct(@PathVariable int id) {
+		return service.deleteProduct(id);
 	}
-	
-	
-	
-	
 	
 	
 	

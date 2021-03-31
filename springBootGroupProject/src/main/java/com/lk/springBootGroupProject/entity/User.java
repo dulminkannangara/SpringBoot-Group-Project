@@ -3,6 +3,8 @@ package com.lk.springBootGroupProject.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,19 +15,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 @Entity(name="User")
-@Table(name="users")
+@Table(name="user")
 public class User implements Serializable{
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private String mobile;
 	private int age;
 	private String username;
 	private String password;
-	
-	
-	
+	public User(int id, String name, String mobile, int age, String username, String password) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.mobile = mobile;
+		this.age = age;
+		this.username = username;
+		this.password = password;
+	}
+	public User() {
+		super();
+	}
 	public int getId() {
 		return id;
 	}
@@ -62,6 +74,11 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+	
+
+	
 	
 	
 	

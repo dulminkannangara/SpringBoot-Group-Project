@@ -13,43 +13,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lk.springBootGroupProject.entity.User;
-import com.lk.springBootGroupProject.service.UserService;
+import com.lk.springBootGroupProject.entity.Cat;
+import com.lk.springBootGroupProject.service.CatService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/cats")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
-public class UserController {
+public class CatController {
+	
 
-	
-	@Autowired
-	UserService service;
-	
-	@GetMapping("/getAllUsers")
-	public List<User> getAllUserList(){
-		return service.getAllUsers();
-	}
-	
-	@PostMapping("/addUser")
-	public User saveSingleUser(@RequestBody User user){
+		@Autowired
+		CatService service;
 		
-		return service.addUser(user);
-	}
-	
-	@PutMapping("/updateUser")
-	public User updateUser(@RequestBody User user) {
-		return service.updateUser(user);
-	}
-	
-	@DeleteMapping("/deleteUser/{id}")
-	public User deleteUser(@PathVariable int id) {
-		return service.deleteUser(id);
-	}
-	
-	
-	
-	
-	
-	
+		
+		@GetMapping("/getAllCats")
+		public List<Cat> getAllCats() {
+			return service.getAllCats();
+		}
+		
+		@PostMapping("/addCat")
+		public Cat addNewCat(@RequestBody Cat cat) {
+			return service.addCat(cat);
+		}
+		
+		@PutMapping("/updateCat")
+		public Cat updateCat(@RequestBody Cat cat) {
+			return service.updateCat(cat);
+		}
+		
+		@DeleteMapping("/deleteCat/{id}")
+		public Cat deleteCat(@PathVariable int id) {
+		return	service.deleteCat(id);
+		}
+		
+		
 	
 }
